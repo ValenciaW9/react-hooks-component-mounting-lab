@@ -3,21 +3,24 @@ import React, { Component } from "react";
 class Timer extends Component {
   state = {
     time: 0,
-    color: "#" + Math.floor(Math.random() * 167772).toString(16)
+    color: "#" + Math.floor(Math.random() * 16777215).toString(16)
   };
 
-  componentDidMount() {
-    this.handleAddTimer();
+  // add your code here
+
+  render() {
+    const { time, color } = this.state;
+    return (
+      <section className="Timer" style={{ background: color }}>
+        <h1>{time}</h1>
+        <button onClick={this.stopClock}>Stop</button>
+        <aside className="mountText">Mounted</aside>
+        <small onClick={this.handleClose}>X</small>
+      </section>
+    );
   }
 
-  componentWillUnmount() {
-    this.stopClock();
-  }
-
-  handleAddTimer = () => {
-    this.interval = setInterval(this.clockTick, 1000);
-  };
-
+  //clock functions
   clockTick = () => {
     this.setState(prevState => ({
       time: prevState.time + 1
@@ -28,21 +31,10 @@ class Timer extends Component {
     clearInterval(this.interval);
   };
 
+  // for the 'x' button,
   handleClose = () => {
-    this.props.onRemove(this.props.id);
+    this.props.removeTimer(this.props.id);
   };
-
-  render() {
-    const { time, color } = this.state;
-    return (
-      <section className="timer" style={{ background: color }}>
-        <h1>{time}</h1>
-        <button onClick={this.stopClock}>Stop</button>
-        <aside className="mounttext">Mounted</aside>
-        <small onClick={this.handleClose}>X</small>
-      </section>
-    );
-  }
 }
 
 export default Timer;
